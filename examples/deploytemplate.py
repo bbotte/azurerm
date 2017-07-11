@@ -1,20 +1,22 @@
-import azurerm
+#!/usr/bin/env python
 import json
+import azurerm
+
 
 # Load Azure app defaults
 try:
-   with open('azurermconfig.json') as configFile:    
-      configData = json.load(configFile)
+    with open('azurermconfig.json') as configFile:
+        configData = json.load(configFile)
 except FileNotFoundError:
-   print("Error: Expecting vmssConfig.json in current folder")
-   sys.exit()
-   
+    print("Error: Expecting vmssConfig.json in current folder")
+    sys.exit()
+
 tenant_id = configData['tenantId']
 app_id = configData['appId']
 app_secret = configData['appSecret']
 subscription_id = configData['subscriptionId']
 
-location = 'Southeast Asia'
+location = 'chinaeast'
 
 access_token = azurerm.get_access_token(tenant_id, app_id, app_secret)
 
@@ -51,4 +53,3 @@ params = params.replace('ADMINPASSWORD', password)
 
 deploy_return = azurerm.deploy_template_uri(access_token, subscription_id, rgname, 'mydep3', template_uri, params)
 print(deploy_return)
-

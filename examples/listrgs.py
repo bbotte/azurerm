@@ -1,5 +1,5 @@
+#!/usr/bin/env python
 import json
-
 import azurerm
 
 # Load Azure app defaults

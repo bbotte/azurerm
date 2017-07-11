@@ -21,8 +21,16 @@ access_token = azurerm.get_access_token(tenant_id, app_id, app_secret)
 # list locations
 locations = azurerm.list_locations(access_token, subscription_id)
 
+# print quota
 for location in locations['value']:
-    print(location['name']
-          + ', Display Name: ' + location['displayName']
-          + ', Coords: ' + location['latitude']
-          + ', ' + location['longitude'])
+    locationStr = location['name']
+    print(locationStr)
+    quota = azurerm.get_compute_usage(access_token, subscription_id, locationStr)
+    # if locationStr == 'westus' or locationStr == 'southindia' or locationStr == 'centralindia' or locationStr == 'westindia':
+    if locationStr != 'chinaeast':
+        continue
+    print(json.dumps(quota, sort_keys=False, indent=2, separators=(',', ': ')))
+    for resource in quota['value']:
+        if resource['name']['value'] == 'cores':
+            print('Current: ' + str(resource['currentValue']) + ', limit: ' + str(resource['limit']))
+            break

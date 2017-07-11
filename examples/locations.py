@@ -1,14 +1,16 @@
-import azurerm
+#!/usr/bin/env python
 import json
+import azurerm
+
 
 # Load Azure app defaults
 try:
-   with open('azurermconfig.json') as configFile:    
-      configData = json.load(configFile)
+    with open('azurermconfig.json') as configFile:
+        configData = json.load(configFile)
 except FileNotFoundError:
-   print("Error: Expecting vmssConfig.json in current folder")
-   sys.exit()
-   
+    print("Error: Expecting vmssConfig.json in current folder")
+    sys.exit()
+
 tenant_id = configData['tenantId']
 app_id = configData['appId']
 app_secret = configData['appSecret']
@@ -24,10 +26,3 @@ for location in locations['value']:
           + ', Display Name: ' + location['displayName']
           + ', Coords: ' + location['latitude']
           + ', ' + location['longitude'])
-
-
-
-
-
-        
-    

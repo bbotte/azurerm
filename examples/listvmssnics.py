@@ -1,14 +1,16 @@
-import azurerm
+#!/usr/bin/env python
 import json
+import azurerm
+
 
 # Load Azure app defaults
 try:
-   with open('azurermconfig.json') as configFile:    
-      configData = json.load(configFile)
+    with open('azurermconfig.json') as configFile:
+        configData = json.load(configFile)
 except FileNotFoundError:
-   print("Error: Expecting vmssConfig.json in current folder")
-   sys.exit()
-   
+    print("Error: Expecting vmssConfig.json in current folder")
+    sys.exit()
+
 tenant_id = configData['tenantId']
 app_id = configData['appId']
 app_secret = configData['appSecret']
@@ -19,8 +21,9 @@ access_token = azurerm.get_access_token(tenant_id, app_id, app_secret)
 # loop through resource groups
 resource_groups = azurerm.list_resource_groups(access_token, subscription_id)
 for rg in resource_groups["value"]:
-    rgname = rg["name"] 
+    rgname = rg["name"]
     vmsslist = azurerm.list_vm_scale_sets(access_token, subscription_id, rgname)
+    print(vmsslis)
     for vmss in vmsslist['value']:
         name = vmss['name']
         location = vmss['location']
@@ -37,11 +40,10 @@ for rg in resource_groups["value"]:
         print(json.dumps(vmssNics, sort_keys=False, indent=2, separators=(',', ': ')))
         print('VMSS Virtual machines...')
         vms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, name)
-        #print(json.dumps(vms, sort_keys=False, indent=2, separators=(',', ': ')))
+        # print(json.dumps(vms, sort_keys=False, indent=2, separators=(',', ': ')))
         for vm in vms['value']:
             vmId = vm['instanceId']
             print(vmId + ', ' + vm['name'] + '\n')
             print('VMSS VM NICs...')
             vmnics = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, name, vmId)
             print(json.dumps(vmnics, sort_keys=False, indent=2, separators=(',', ': ')))
-

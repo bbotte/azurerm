@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Copyright (c) 2016, Marcelo Leal
 Description: Simple Azure Resource Manager Python library
@@ -8,7 +9,7 @@ import azurerm
 
 # Load Azure app defaults
 try:
-	with open('config.json') as configFile:
+	with open('azurermconfig.json') as configFile:
 		configData = json.load(configFile)
 except FileNotFoundError:
 	print("ERROR: Expecting config.json in current folder")

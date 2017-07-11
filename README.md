@@ -15,11 +15,27 @@ For what's new in the most recent version refer to the [Changelog](./changelog.m
 2. To start using, follow the instructions below on authenticating a service principal with Azure Resource Manager.
 
 ## Using azurerm
-To use this library (and in general to access Azure Resource Manager from a program) you need to register your application with Azure and create a "Service Principal" (an application equivalent of a user). Once you've done this you'll have 3 pieces of information: A tenant ID, an application ID, and an application secret. You will use these to create an authentication token. For more information on how to get this information go here: <a href ="https://azure.microsoft.com/en-us/documentation/articles/resource-group-authenticate-service-principal/">Authenticating a service principal with Azure Resource Manager</a>. See also: <a href="https://msftstack.wordpress.com/2016/01/05/azure-resource-manager-authentication-with-python/">Azure Resource Manager REST calls from Python</a>. Make sure you create a service principal with sufficient access rights, like "Contributor", not "Reader".
+To use this library (and in general to access Azure Resource Manager from a program) you need to register your application with Azure and create a "Service Principal" (an application equivalent of a user). Once you've done this you'll have 3 pieces of information: A tenant ID, an application ID, and an application secret. You will use these to create an authentication token. For more information on how to get this information go here: <a href ="https://azure.microsoft.com/zh-cn/documentation/articles/resource-group-authenticate-service-principal/">Authenticating a service principal with Azure Resource Manager</a>. See also: <a href="https://msftstack.wordpress.com/2016/01/05/azure-resource-manager-authentication-with-python/">Azure Resource Manager REST calls from Python</a>. Make sure you create a service principal with sufficient access rights, like "Contributor", not "Reader".
 
 A more detailed set of **azurerm** programming examples can be found here: <a href="https://github.com/gbowerman/azurerm/blob/master/examples.md">azurerm Python library programming examples</a>. For even more examples look at the <a href="https://github.com/gbowerman/azurerm/tree/master/examples">azurerm examples library</a>. 
 
 See also the unit test suite which is new but the goal is to expand it to test every function in the library: <a href="https://github.com/gbowerman/azurerm/tree/master/test">test</a>
+
+获取ApplicationId:
+powershell:
+* 登录
+Login-AzureRmAccount -EnvironmentName AzureChinaCloud  
+* 选择订阅id
+Set-AzureRmContext -SubscriptionId <your_subscription_id> 
+* 创建ad的用户名密码
+$azureAdApplication = New-AzureRmADApplication -DisplayName "your_name" -HomePage "http://XXX.com" -IdentifierUris "http://XXX.com" -Password "123456"
+* 查看信息
+$azureAdApplication
+* 创建服务凭证
+New-AzureRmADServicePrincipal -ApplicationId $azureAdApplication.ApplicationId
+* 添加角色设置，只读授权
+New-AzureRmRoleAssignment -RoleDefinitionName Reader -ServicePrincipalName $azureAdApplication.ApplicationId
+这样就生成了一个有所有资源只读权限的一个账号
 
 ### National/isolated cloud support
 To use this library with national or isolated clouds, set environment variables to override the public default endpoints.

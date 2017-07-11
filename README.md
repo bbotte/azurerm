@@ -22,7 +22,9 @@ A more detailed set of **azurerm** programming examples can be found here: <a hr
 See also the unit test suite which is new but the goal is to expand it to test every function in the library: <a href="https://github.com/gbowerman/azurerm/tree/master/test">test</a>
 
 获取ApplicationId:
+
 powershell:
+
 * 登录
 Login-AzureRmAccount -EnvironmentName AzureChinaCloud  
 * 选择订阅id

@@ -1,4 +1,4 @@
-# azurerm
+# 大中华区微软云python 接口: azurerm
 Easy to use Python library for Azure Resource Manager.
 
 The azurerm philosophy is ease of use over completeness of API. Rather than support every possible attribute the goal is to provide a set of simple functions for the most common tasks that anyone can extend. 
@@ -27,27 +27,39 @@ powershell:
 
 * 登录
 
+```
     Login-AzureRmAccount -EnvironmentName AzureChinaCloud  
+```
 
 * 选择订阅id
 
+```
     Set-AzureRmContext -SubscriptionId <your_subscription_id> 
+```
 
 * 创建ad的用户名密码
 
+```
     $azureAdApplication = New-AzureRmADApplication -DisplayName "your_name" -HomePage "http://XXX.com" -IdentifierUris "http://XXX.com" -Password "123456"
+```
 
 * 查看信息
 
+```
     $azureAdApplication
+```
 
 * 创建服务凭证
 
+```
     New-AzureRmADServicePrincipal -ApplicationId $azureAdApplication.ApplicationId
+```
 
 * 添加角色设置，只读授权
 
+```
     New-AzureRmRoleAssignment -RoleDefinitionName Reader -ServicePrincipalName $azureAdApplication.ApplicationId
+```
 
 这样就生成了一个有所有资源只读权限的一个账号
 
@@ -100,7 +112,7 @@ for rg in resource_groups['value']:
 
 #### Example to create a virtual machine
 
-See also an example to create a VM Scale Set <a href="https://github.com/gbowerman/azurerm/tree/master/examples/create_vmss.py">create_vmss.py</a>. 
+See also an example to create a VM Scale Set <a href="https://github.com/bbotte/azurerm/blob/master/examples/create_vmss.py">create_vmss.py</a>. 
 ```
 import azurerm
 import json

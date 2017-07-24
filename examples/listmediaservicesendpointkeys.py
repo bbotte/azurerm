@@ -1,4 +1,4 @@
-#!/usr/vin/env python
+#!/usr/bin/env python
 """
 Copyright (c) 2016, Marcelo Leal
 Description: Simple Azure Resource Manager Python library
